@@ -1,0 +1,359 @@
+        Private Sub conversieRW5_txt()
+        Dim str As String = Nothing
+        Dim str1 As String = Nothing
+        Dim str2 As String = Nothing
+        Dim str3 As String = Nothing
+        Dim str4 As String = Nothing
+        Dim str5 As String = Nothing
+        Dim str6 As String = Nothing
+        Dim str7 As String = Nothing
+        Dim str8 As String = Nothing
+        Dim str9 As String = Nothing
+        Dim str10 As String = Nothing
+        Dim num As Integer
+        Dim num1 As Integer
+        Dim num2 As Integer
+        Dim strArrays As String()
+        Dim objArray As Object()
+        Me.RichEditControl1.Visible = False
+        Dim num3 As Integer = 1
+        Me.ToolStripProgressBar1.Minimum = 0
+        Me.ToolStripProgressBar1.Value = 0
+        Me.ToolStripProgressBar1.Maximum = Me.liniiRW5(Me.varNumeRW5)
+        Me.ToolStripStatusLabel2.Visible = True
+        Me.ToolStripProgressBar1.Visible = True
+        Me.RichEditControl1.LoadDocument(String.Concat(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "\ConversieRW5\a15b.doc"))
+        Dim num4 As Integer = 0
+        FileSystem.FileOpen(4, Me.varNumeRW5, OpenMode.Input, OpenAccess.[Default], OpenShare.[Default], -1)
+        Me.RichEditControl1.Document.Tables(0).BeginUpdate()
+        While Not FileSystem.EOF(4)
+        Dim str11 As String = FileSystem.LineInput(4)
+        If(Strings.InStr(str11, "JB,NM", CompareMethod.Binary) > 0) Then
+        Dim num5 As Integer = Strings.InStr(str11, "JB,NM", CompareMethod.Binary) + 5
+        Dim num6 As Integer = Strings.InStr(str11, ",DT", CompareMethod.Binary)
+        Dim str12 As String = Strings.Mid(str11, num5, num6 - num5)
+        Me.RichEditControl1.Document.ReplaceAll("<nume>", str12, SearchOptions.None)
+        str1 = Strings.Replace(Strings.Mid(str11, num6 + 3, 10), "-", "/", 1, -1, CompareMethod.Binary)
+        Strings.Mid(str11, num6 + 16, 8)
+        End If
+        If(Strings.InStr(str11, "BP,PN", CompareMethod.Binary) > 0 And Strings.InStr(str11, ",LA", CompareMethod.Binary) > 0) Then
+        Dim num7 As Integer = Strings.InStr(str11, "BP,PN", CompareMethod.Binary) + 5
+        Dim num8 As Integer = Strings.InStr(str11, ",LA", CompareMethod.Binary)
+        Dim str13 As String = Strings.Mid(str11, num7, num8 - num7)
+        Me.RichEditControl1.Document.ReplaceAll("<statie>", str13, SearchOptions.None)
+        str5 = str13
+        num7 = Strings.InStr(str11, ",LA", CompareMethod.Binary) + 3
+        num8 = Strings.InStr(str11, ",LN", CompareMethod.Binary)
+        Dim num9 As Integer = Strings.InStr(str11, ",EL", CompareMethod.Binary)
+        Dim num10 As Integer = Strings.InStr(str11, ",AG", CompareMethod.Binary)
+        str3 = Strings.Mid(str11, num7, num8 - num7)
+        strArrays = New String() {
+          Strings.Mid(str3, 1, 2), "°", Strings.Mid(str3, 4, 2), "'", Strings.Mid(str3, 6, 2), ""
+          "", Strings.Mid(str3, 8, 5)
+        }
+        str3 = String.Concat(strArrays)
+        str4 = Strings.Mid(str11, num8 + 3, num9 - num8 - 3)
+        strArrays = New String() {
+          Strings.Mid(str4, 1, 2), "°", Strings.Mid(str4, 4, 2), "'", Strings.Mid(str4, 6, 2), ""
+          "", Strings.Mid(str4, 8, 5)
+        }
+        str4 = String.Concat(strArrays)
+        If(num10 <= 0) Then
+        str2 = Strings.Mid(str11, num9 + 3, 8)
+        Else
+        str2 = Strings.Mid(str11, num9 + 3, num10 - num9 - 3)
+        str7 = "FIXED"
+        End If
+        End If
+        If(Strings.InStr(str11, "GPS,PN", CompareMethod.Binary) > 0) Then
+        Dim num11 As Integer = Strings.InStr(str11, ",LA", CompareMethod.Binary)
+        Dim num12 As Integer = Strings.InStr(str11, ",LN", CompareMethod.Binary)
+        Dim num13 As Integer = Strings.InStr(str11, ",EL", CompareMethod.Binary)
+        str5 = Strings.Mid(str11, Strings.InStr(str11, "GPS,PN", CompareMethod.Binary) + 6, num11 - Strings.InStr(str11, "GPS,PN", CompareMethod.Binary) - 6)
+        str3 = Strings.Mid(str11, num11 + 3, num12 - num11 - 3)
+        strArrays = New String() {
+          Strings.Mid(str3, 1, 2), "°", Strings.Mid(str3, 4, 2), "'", Strings.Mid(str3, 6, 2), ""
+          "", Strings.Mid(str3, 8, 5)
+        }
+        str3 = String.Concat(strArrays)
+        str4 = Strings.Mid(str11, num12 + 3, num13 - num12 - 3)
+        strArrays = New String() {
+          Strings.Mid(str4, 1, 2), "°", Strings.Mid(str4, 4, 2), "'", Strings.Mid(str4, 6, 2), ""
+          "", Strings.Mid(str4, 8, 5)
+        }
+        str4 = String.Concat(strArrays)
+        str2 = Strings.Mid(str11, num13 + 3, 10)
+        If(Operators.CompareString(str11.Substring(str11.Length - 2), "--", False) < > 0) Then
+        num11 = Strings.InStr(str11, "--", CompareMethod.Binary)
+        str = Strings.Mid(str11, num11 + 2, Strings.Len(str11) - num11)
+        End If
+        End If
+        If(Strings.InStr(str11, "--GS,PN", CompareMethod.Binary) > 0) Then
+        Dim num14 As Integer = Strings.InStr(str11, ",N ", CompareMethod.Binary)
+        Dim num15 As Integer = Strings.InStr(str11, ",E ", CompareMethod.Binary)
+        Dim num16 As Integer = Strings.InStr(str11, ",EL", CompareMethod.Binary)
+        str8 = Strings.Mid(str11, num14 + 3, num15 - num14 - 3).Trim()
+        str9 = Strings.Mid(str11, num15 + 3, num16 - num15 - 3).Trim()
+        str10 = Strings.Mid(str11, num16 + 3, 8).Trim()
+        End If
+        If(Strings.InStr(str11, "--Nor Avg: ", CompareMethod.Binary) > 0) Then
+        str8 = Strings.Mid(str11, Strings.InStr(str11, "--Nor Avg: ", CompareMethod.Binary) + 11, 11).Trim()
+        End If
+        If(Strings.InStr(str11, "--Eas Avg: ", CompareMethod.Binary) > 0) Then
+        str9 = Strings.Mid(str11, Strings.InStr(str11, "--Eas Avg: ", CompareMethod.Binary) + 11, 11).Trim()
+        End If
+        If(Strings.InStr(str11, "--Elv Avg: ", CompareMethod.Binary) > 0) Then
+        str10 = Strings.Mid(str11, Strings.InStr(str11, "--Elv Avg: ", CompareMethod.Binary) + 11, 8).Trim()
+        End If
+        If(Strings.InStr(str11, "G0,", CompareMethod.Binary) > 0) Then
+        Dim num17 As Integer = Strings.InStr(str11, "G0,", CompareMethod.Binary)
+        str1 = Strings.Mid(str11, num17 + 3, 19)
+        End If
+        If(Strings.InStr(str11, "--DT", CompareMethod.Binary) > 0) Then
+        Dim num18 As Integer = Strings.InStr(str11, "--DT", CompareMethod.Binary)
+        str1 = Strings.Mid(str11, num18 + 4, 10)
+        End If
+        If(Strings.InStr(str11, "--TM", CompareMethod.Binary) > 0) Then
+        Dim num19 As Integer = Strings.InStr(str11, "--TM", CompareMethod.Binary)
+        str1 = String.Concat(str1, "/", Strings.Mid(str11, num19 + 4, 8))
+        End If
+        If(Strings.InStr(str11, "--HSIG:", CompareMethod.Binary) > 0 Or Strings.InStr(str11, "--CEP:", CompareMethod.Binary) > 0) Then
+        Dim num20 As Integer = Strings.InStr(str11, "STATUS:", CompareMethod.Binary) + 7
+        num = If(Strings.InStr(str11, ", SATS:", CompareMethod.Binary) <= 0, Strings.InStr(str11, ", PDOP:", CompareMethod.Binary), Strings.InStr(str11, ", SATS:", CompareMethod.Binary))
+        str6 = Strings.Mid(str11, Strings.InStr(str11, "--HSIG:", CompareMethod.Binary) + 7, 6)
+        str7 = Strings.Mid(str11, num20, num - num20)
+        End If
+        If(Strings.InStr(str11, "--HRMS:", CompareMethod.Binary) > 0) Then
+        Dim num21 As Integer = Strings.InStr(str11, "STATUS:", CompareMethod.Binary) + 7
+        num1 = If(Strings.InStr(str11, ", SATS:", CompareMethod.Binary) <= 0, Strings.InStr(str11, ", PDOP:", CompareMethod.Binary), Strings.InStr(str11, ", SATS:", CompareMethod.Binary))
+        str6 = Strings.Mid(str11, Strings.InStr(str11, "--HSIG:", CompareMethod.Binary) + 8, 5)
+        str7 = Strings.Mid(str11, num21, num1 - num21)
+        End If
+        If(Strings.InStr(str11, "--HSDV:", CompareMethod.Binary) > 0) Then
+        Dim num22 As Integer = Strings.InStr(str11, "STATUS:", CompareMethod.Binary) + 7
+        num2 = If(Strings.InStr(str11, ", SATS:", CompareMethod.Binary) <= 0, Strings.InStr(str11, ", PDOP:", CompareMethod.Binary), Strings.InStr(str11, ", SATS:", CompareMethod.Binary))
+        str6 = Strings.Mid(str11, Strings.InStr(str11, "--HSIG:", CompareMethod.Binary) + 8, 5)
+        str7 = Strings.Mid(str11, num22, num2 - num22)
+        End If
+        If(Operators.CompareString(str7, "", False) < > 0) Then
+        Form1.UpdateCellText(Me.RichEditControl1.Document, Me.RichEditControl1.Document.Tables(0), str5, num3, 0)
+        Form1.UpdateCellText(Me.RichEditControl1.Document, Me.RichEditControl1.Document.Tables(0), str1, num3, 1)
+        Form1.UpdateCellText(Me.RichEditControl1.Document, Me.RichEditControl1.Document.Tables(0), str7, num3, 2)
+        Form1.UpdateCellText(Me.RichEditControl1.Document, Me.RichEditControl1.Document.Tables(0), str3, num3, 3)
+        Form1.UpdateCellText(Me.RichEditControl1.Document, Me.RichEditControl1.Document.Tables(0), str4, num3, 4)
+        Form1.UpdateCellText(Me.RichEditControl1.Document, Me.RichEditControl1.Document.Tables(0), str2, num3, 5)
+        Form1.UpdateCellText(Me.RichEditControl1.Document, Me.RichEditControl1.Document.Tables(0), str6, num3, 6)
+        Form1.UpdateCellText(Me.RichEditControl1.Document, Me.RichEditControl1.Document.Tables(0), str8, num3, 7)
+        Form1.UpdateCellText(Me.RichEditControl1.Document, Me.RichEditControl1.Document.Tables(0), str9, num3, 8)
+        Form1.UpdateCellText(Me.RichEditControl1.Document, Me.RichEditControl1.Document.Tables(0), str10, num3, 9)
+        Form1.UpdateCellText(Me.RichEditControl1.Document, Me.RichEditControl1.Document.Tables(0), str, num3, 10)
+        Me.RichEditControl1.Document.Tables(0).Rows.Append()
+        num3 = num3 + 1
+        num4 = num4 + 1
+        If(Not Conversions.ToBoolean(Me.varDEMO)) Then
+        If(Strings.Len(str5) = 1) Then
+        str5 = String.Concat("     ", str5)
+        End If
+        If(Strings.Len(str5) = 2) Then
+        str5 = String.Concat("    ", str5)
+        End If
+        If(Strings.Len(str5) = 3) Then
+        str5 = String.Concat("   ", str5)
+        End If
+        If(Strings.Len(str5) = 4) Then
+        str5 = String.Concat("  ", str5)
+        End If
+        If(Strings.Len(str5) = 5) Then
+        str5 = String.Concat(" ", str5)
+        End If
+        If(Strings.Len(str5) = 6) Then
+        str5 = str5
+        End If
+        ReDim objArray(0)
+        strArrays = New String() {
+          str5,
+          "     ",
+          str9,
+          "0     ",
+          str8,
+          "0    -10000000000.00000    20    0    672    0    1 "
+        }
+        objArray(0) = String.Concat(strArrays)
+        FileSystem.PrintLine(6, objArray)
+        If(Me.yxz) Then
+        If(Not Me.ExportaCod) Then
+        ReDim objArray(0)
+        strArrays = New String() {
+          str5,
+          "   ",
+          str9,
+          "   ",
+          str8,
+          "   ",
+          str10
+        }
+        objArray(0) = String.Concat(strArrays)
+        FileSystem.PrintLine(7, objArray)
+        Else
+        ReDim objArray(0)
+        strArrays = New String() {
+          str5,
+          "   ",
+          str9,
+          "   ",
+          str8,
+          "   ",
+          str10,
+          "   ",
+          str
+        }
+        objArray(0) = String.Concat(strArrays)
+        FileSystem.PrintLine(7, objArray)
+        End If
+        ElseIf(Not Me.ExportaCod) Then
+        ReDim objArray(0)
+        strArrays = New String() {
+          str5,
+          "   ",
+          str8,
+          "   ",
+          str9,
+          "   ",
+          str10
+        }
+        objArray(0) = String.Concat(strArrays)
+        FileSystem.PrintLine(7, objArray)
+        Else
+        ReDim objArray(0)
+        strArrays = New String() {
+          str5,
+          "   ",
+          str8,
+          "   ",
+          str9,
+          "   ",
+          str10,
+          "   ",
+          str
+        }
+        objArray(0) = String.Concat(strArrays)
+        FileSystem.PrintLine(7, objArray)
+        End If
+        Else
+        If(num4 < 5) Then
+        If(Strings.Len(str5) = 1) Then
+        str5 = String.Concat("     ", str5)
+        End If
+        If(Strings.Len(str5) = 2) Then
+        str5 = String.Concat("    ", str5)
+        End If
+        If(Strings.Len(str5) = 3) Then
+        str5 = String.Concat("   ", str5)
+        End If
+        If(Strings.Len(str5) = 4) Then
+        str5 = String.Concat("  ", str5)
+        End If
+        If(Strings.Len(str5) = 5) Then
+        str5 = String.Concat(" ", str5)
+        End If
+        If(Strings.Len(str5) = 6) Then
+        str5 = str5
+        End If
+        ReDim objArray(0)
+        strArrays = New String() {
+          str5,
+          "     ",
+          str9,
+          "0     ",
+          str8,
+          "0    -10000000000.00000    20    0    672    0    1 "
+        }
+        objArray(0) = String.Concat(strArrays)
+        FileSystem.PrintLine(6, objArray)
+        ReDim objArray(0)
+        strArrays = New String() {
+          str5,
+          "   ",
+          str9,
+          "   ",
+          str8
+        }
+        objArray(0) = String.Concat(strArrays)
+        FileSystem.PrintLine(7, objArray)
+        End If
+        If(num4 = 5) Then
+        objArray = New Object() {
+          ""
+        }
+        FileSystem.PrintLine(7, objArray)
+        objArray = New Object() {
+          "====================================================="
+        }
+        FileSystem.PrintLine(7, objArray)
+        objArray = New Object() {
+          ""
+        }
+        FileSystem.PrintLine(7, objArray)
+        objArray = New Object() {
+          "Trimite acest fisier la office@conversiecad.ro"
+        }
+        FileSystem.PrintLine(7, objArray)
+        objArray = New Object() {
+          "sau suna la  0733212537 pentru a afla cum poti salva fisierul RW5 complet"
+        }
+        FileSystem.PrintLine(7, objArray)
+        objArray = New Object() {
+          String.Concat("Computer id: <->", CompID.GetCompID().ToString(), "<->")
+        }
+        FileSystem.PrintLine(7, objArray)
+        objArray = New Object() {
+          String.Concat("COD ACTIVARE: <->", CompID.CODActivare().ToString(), "<->")
+        }
+        FileSystem.PrintLine(7, objArray)
+        objArray = New Object() {
+          ""
+        }
+        FileSystem.PrintLine(7, objArray)
+        objArray = New Object() {
+          "====================================================="
+        }
+        FileSystem.PrintLine(7, objArray)
+        objArray = New Object() {
+          ""
+        }
+        FileSystem.PrintLine(7, objArray)
+        End If
+        End If
+        End If
+        str7 = ""
+        Me.ToolStripProgressBar1.Value = Me.ToolStripProgressBar1.Value + 1
+        End While
+        Me.RichEditControl1.Document.Tables(0).EndUpdate()
+        Me.RichEditControl1.Document.Tables(0).LastRow.Delete()
+        Me.ToolStripStatusLabel2.Visible = False
+        Me.ToolStripProgressBar1.Visible = False
+        If(Me.RichEditControl1.Document.Tables(0).Rows.Count < > 1) Then
+        Dim numArray() As Integer = {
+          4
+        }
+        FileSystem.FileClose(numArray)
+        numArray = New Integer() {
+          6
+        }
+        FileSystem.FileClose(numArray)
+        numArray = New Integer() {
+          7
+        }
+        FileSystem.FileClose(numArray)
+        Me.RichEditControl1.Visible = True
+        If(Conversions.ToBoolean(Me.varDEMO)) Then
+        Interaction.MsgBox("Nu puteti salva Anexa 15B in varianta DEMO! In fisierul puncte.xyz din directorul unde ati ales salvarea anexei 15 se regasesc instructiuni pentru a intra in posesia unei variante full a aplicatiei.", MsgBoxStyle.OkOnly, Nothing)
+        Else
+        Me.RichEditControl1.Document.SaveDocument(Me.varNumeTXT, Me.formatDocument)
+        Console.WriteLine(Me.ToolStripProgressBar1.Value)
+        Interaction.MsgBox(String.Concat("Datele au fost convertite si salvate cu succes!!!" & VbCrLf & "Fisierele se regasesc in locatia aleasa:" & VbCrLf & "", Me.varNumeTXT), MsgBoxStyle.OkOnly, "Succes!!!")
+        End If
+        Else
+        Interaction.MsgBox("Nu exista date de salvat!!!", MsgBoxStyle.OkOnly, Nothing)
+        End If
+        End Sub
